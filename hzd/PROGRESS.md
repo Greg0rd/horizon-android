@@ -6,7 +6,7 @@ the phone). Status labels: **VERIFIED** (seen running, CI green or the owner's p
 
 | Module | Scope | Status | Report |
 |---|---|---|---|
-| F00 | own layer, fast CI, baseline, built-in data pack | IMPLEMENTED NOT EXECUTED | `hzd/docs/reports/F00.md` |
+| F00 | own layer, fast CI, baseline, built-in data pack | **DONE** (baseline waived by the owner) | `hzd/docs/reports/F00.md` |
 | F01 | trim the game (dimensions, mobs, structures, fantasy blocks, PC settings) | NOT IMPLEMENTED | — |
 | F02 | realistic landscape and biomes, fields, half blocks | NOT IMPLEMENTED | — |
 | F03 | villages, towns, farms, roads | NOT IMPLEMENTED | — |
@@ -38,7 +38,11 @@ the phone). Status labels: **VERIFIED** (seen running, CI green or the owner's p
 - [x] Console on the phone with the soft keyboard (VERIFIED: the Android IME opened and a typed command ran).
 - [x] Built-in pack on a new world and surviving an app update (VERIFIED on the phone; see the report).
 - [x] F3 shows `HZD 0.1.0` on the phone, and the log says `HZD layer active (hzd-survival 0.1.0)`.
-- [ ] Baseline numbers from the phone (`BASELINE.md`) — the only F00 item left.
+- [x] Baseline: **waived by the owner** on 2026-11-04 ("пропустим замеры, всё хорошо"); no
+  numbers were taken and `BASELINE.md` says so, with what that means for later modules.
+- [x] Resource pack: not auto-enabled in F00 by decision — the owner's `resourcePacks` list is
+  global and there is no art to show yet; the mechanism is documented in `DECISIONS.md` and F04
+  owns it (the Definition of Done allows the documented alternative).
 
 The phone ran this build on 2026-11-04 over adb (details and evidence in
 `hzd/docs/reports/F00.md`, §4). The working copy this session started from had no `.git`;
