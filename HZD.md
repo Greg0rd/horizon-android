@@ -1,9 +1,9 @@
-# HZD
+# HZD — Horizon Z Day
 
-HZD is this fork's own game: a grounded, DayZ-like survival game on top of the Horizon
-engine (Minecraft: Java Edition 26.3 in Rust), for one owner's phone. The engine, the
-Android packaging and the vanilla parity work stay as they are; everything HZD adds lives
-in `hzd/` and `crates/hzd-*`.
+HZD stands for **Horizon Z Day** — the day the dead walk: this fork's own game, a grounded,
+DayZ-like survival game on top of the Horizon engine (Minecraft: Java Edition 26.3 in Rust),
+for one owner's phone. The engine, the Android packaging and the vanilla parity work stay as
+they are; everything HZD adds lives in `hzd/` and `crates/hzd-*`.
 
 Start here:
 
