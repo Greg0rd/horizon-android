@@ -208,6 +208,9 @@ fn android_main(app: AndroidApp) {
         app.enable_motion_axis(axis);
     }
     init_logging();
+    // HZD: this is the phone's entry point, not `main`, so the layer's banner is logged here
+    // too; `HZD layer active` in logcat is how a build names itself on the device.
+    log::info!("HZD layer active (hzd-survival {})", hzd_survival::VERSION);
     let Some(home) = app.internal_data_path() else {
         log::error!("Android supplied no application data directory");
         return;
