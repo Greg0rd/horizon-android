@@ -1631,6 +1631,7 @@ dependencies = [
  "horizon-theme",
  "horizon-threads",
  "horizon-world",
+ "hzd-survival",
  "image",
  "jni 0.21.1",
  "log",

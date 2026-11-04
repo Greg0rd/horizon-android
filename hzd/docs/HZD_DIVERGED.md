@@ -11,6 +11,7 @@ bottom.
 |---|---|---|
 | `Cargo.toml` | `crates/hzd-survival` added to the workspace members | F00 |
 | `crates/horizon-client/Cargo.toml` | depends on `hzd-survival` | F00 |
+| `crates/horizon-android/Cargo.toml` | depends on `hzd-survival` too: this crate compiles horizon-client's own modules (`android_main.rs` includes `game.rs` and `game/`), so the hooks need the layer here as well | F00 |
 | `crates/horizon-client/src/main.rs` | logs `HZD layer active (hzd-survival <version>)` after the build banner | F00 |
 | `crates/horizon-client/src/game.rs` (`Game::open_world`) | writes the built-in data pack into the world before it opens | F00 |
 | `crates/horizon-client/src/game/debug_keys.rs` (`debug_system_lines`, `debug_performance_lines` area) | F3 `system` group shows the HZD version and `hzd_survival::perf::lines()` | F00 |

@@ -9,6 +9,9 @@ path = "../horizon-client/src/android_main.rs"
 crate-type = ["cdylib"]
 
 [dependencies]
+# HZD: the Android crate compiles horizon-client's own modules (`android_main.rs` pulls in
+# `game.rs` and `game/`), so HZD's layer must be a dependency here too, not only of horizon-client.
+hzd-survival = { path = "../hzd-survival" }
 horizon-client-render = { path = "../horizon-client-render" }
 horizon-chat-filter = { path = "../horizon-chat-filter" }
 horizon-narrator = { path = "../horizon-narrator" }
