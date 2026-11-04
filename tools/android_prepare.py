@@ -53,7 +53,8 @@ def parallel_download(files):
 
 
 def download_game(version, directory):
-    pins = json.loads((ROOT / 'research-lock.json').read_text())['minecraft']
+    lock = json.loads((ROOT / 'research-lock.json').read_text())
+    pins = lock['minecraft']
     if version != pins['version']:
         raise ValueError(f"This engine implements {pins['version']}; {version} is unsupported")
     entry = next((v for v in fetch_json(MANIFEST)['versions'] if v['id'] == version), None)
@@ -64,6 +65,15 @@ def download_game(version, directory):
     versions = directory / 'versions' / version
     manifest_path = versions / f'{version}.json'
     lab.download(entry['url'], manifest_path, entry['sha1'])
+    # HZD: Mojang republishes a release's version JSON (a new asset index, new translations), and
+    # the engine pins the copy it was verified against; the live one then fails Horizon's pin check
+    # in `horizon-prepare`. Mojang keeps every copy at its content address (the same fallback its
+    # own error message names), so fetch the pinned one by hash instead of refusing to build.
+    live = hashlib.sha1(manifest_path.read_bytes()).hexdigest()
+    if not lab.manifest_accepted(lock, live):
+        pinned = pins['manifest_sha1']
+        print(f'26.3 was republished (live {live[:12]}, pinned {pinned[:12]}): using the pinned JSON', flush=True)
+        lab.download(f'https://piston-meta.mojang.com/v1/packages/{pinned}/{version}.json', manifest_path, pinned)
     manifest = json.loads(manifest_path.read_text())
     files = []
     for side in ['client', 'server']:
