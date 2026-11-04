@@ -48,6 +48,8 @@ members = [
     "mods/official/zoom",
     "xtask",
     "mods/official/recipes",
+    # HZD's own layer (HZD.md): survival rules and the built-in data pack's delivery.
+    "crates/hzd-survival",
 ]
 resolver = "2"
 

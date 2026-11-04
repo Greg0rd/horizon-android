@@ -11490,6 +11490,20 @@ impl Game<'_> {
                 }
             }
         }
+        // HZD: our built-in data pack, into every world before it opens — a new
+        // one, a re-created one, or one made before this build (the game enables
+        // a `file/` pack its `datapacks.json` does not mention).
+        {
+            let world = std::env::current_dir()?.join("saves").join(folder);
+            match hzd_survival::packs::install_builtin_datapack(&world) {
+                Ok(
+                    hzd_survival::packs::Installed::Created
+                    | hzd_survival::packs::Installed::Updated,
+                ) => log::info!("HZD: built-in data pack written for {folder}"),
+                Ok(_) => {}
+                Err(e) => log::warn!("HZD: built-in data pack for {folder}: {e}"),
+            }
+        }
         if self
             .options
             .execution_role

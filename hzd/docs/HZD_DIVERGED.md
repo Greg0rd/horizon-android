@@ -1,0 +1,33 @@
+# Where HZD diverges from the fork
+
+Every edit outside `hzd/` is listed here: the file, what changed and why. New code in
+`crates/hzd-*` and everything under `hzd/` is HZD's own and is not listed. Parity harnesses
+and vanilla tests are never deleted; harnesses a divergence makes obsolete are listed at the
+bottom.
+
+## Engine files edited (all marked `// HZD:` or `<!-- HZD: -->` in place)
+
+| File | Change | Module |
+|---|---|---|
+| `Cargo.toml` | `crates/hzd-survival` added to the workspace members | F00 |
+| `crates/horizon-client/Cargo.toml` | depends on `hzd-survival` | F00 |
+| `crates/horizon-client/src/main.rs` | logs `HZD layer active (hzd-survival <version>)` after the build banner | F00 |
+| `crates/horizon-client/src/game.rs` (`Game::open_world`) | writes the built-in data pack into the world before it opens | F00 |
+| `crates/horizon-client/src/game/debug_keys.rs` (`debug_system_lines`, `debug_performance_lines` area) | F3 `system` group shows the HZD version and `hzd_survival::perf::lines()` | F00 |
+| `packaging/android/AndroidManifest.xml` | `android:label="HZD"` (package id unchanged) | F00 |
+| `AGENTS.md` | one line pointing at `HZD.md` | F00 |
+| `.github/workflows/hzd-check.yml` | new workflow (not an edit of an existing one) | F00 |
+
+## Behaviour that differs from the fork
+
+- Every local world gets `datapacks/hzd` on open and has it enabled, unless its
+  `datapacks.json` disables `file/hzd`. The pack currently holds one function,
+  `hzd:ping`; later modules fill it.
+- The app's launcher name is `HZD`.
+- The log and the F3 overlay name the HZD layer's version.
+
+## Parity harnesses made obsolete
+
+None yet. F00 changes no vanilla behaviour that a harness pins: the data pack is additive
+(a `file/` pack a world's selection does not mention is enabled), the banner is log text, and
+F3's own group is outside vanilla's entries.

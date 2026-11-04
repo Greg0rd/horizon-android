@@ -475,6 +475,11 @@ impl Game<'_> {
         {
             d.group("system", [r.hdr_line()]);
         }
+        // HZD: which layer this build carries, then our systems' counters (none yet, F00).
+        d.group("system", [format!("HZD {}", hzd_survival::VERSION)]);
+        for line in hzd_survival::perf::lines() {
+            d.group("system", [line]);
+        }
     }
     /// `DebugEntryTps` for local and remote connections.
     pub(super) fn debug_tps_line(&self, d: &mut debug_overlay::Displayer) {

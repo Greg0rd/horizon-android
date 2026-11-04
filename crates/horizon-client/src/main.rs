@@ -41,6 +41,8 @@ fn main() {
         logging::init(&home, thread);
         // The log's first line names the build, so a bug report that carries the log says which one it was.
         log::info!("Horizon {}", crash::version());
+        // HZD: our layer's banner, so a build's log says it carried HZD and which version.
+        log::info!("HZD layer active (hzd-survival {})", hzd_survival::VERSION);
         crash::install(home.clone(), side);
     }
     raise_open_file_limit();

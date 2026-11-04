@@ -216,3 +216,10 @@ Public Android documentation covers installation, supported features, architectu
 and contribution workflows. Keep promotion drafts, video scripts and personal
 planning notes outside version control; use ignored local notes when needed.
 Use neutral technical language and keep compatibility claims tied to verification.
+
+## HZD (this fork's own game)
+
+This fork is also HZD: a grounded, DayZ-like survival game for one phone, built on this
+engine. Its layer, rules and module plan live in `hzd/` and `crates/hzd-*`; read
+[HZD.md](HZD.md) before changing anything they touch. The upstream claim/PR rituals above do
+not apply to HZD work, the rest of these rules do.

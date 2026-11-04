@@ -1,0 +1,67 @@
+name: HZD fast check
+run-name: HZD check · ${{ github.ref_name }} · ${{ github.sha }}
+
+# Minutes-long feedback for HZD's own layer, so a mistake in `hzd/` or `crates/hzd-*`
+# shows up before the ~2 hour APK build (android-dev.yml, which only runs on `android`).
+# It does not replace that workflow: only a green APK build proves the game still builds.
+on:
+  push:
+    branches: ['hzd/**']
+    paths: &hzd-paths
+      - 'hzd/**'
+      - 'crates/hzd-*/**'
+      - 'Cargo.toml'
+      - 'Cargo.lock'
+      - 'rust-toolchain.toml'
+      - '.github/workflows/hzd-check.yml'
+  pull_request:
+    paths: *hzd-paths
+  workflow_dispatch:
+
+permissions:
+  contents: read
+concurrency:
+  group: hzd-check-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  layer:
+    name: HZD layer · fmt, clippy, tests
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+        with:
+          persist-credentials: false
+      # Installs the toolchain rust-toolchain.toml pins (1.95, with clippy and rustfmt).
+      - name: Rust toolchain
+        run: rustup show
+      - uses: Swatinem/rust-cache@f13886b937689c021905a6b90929199931d60db1 # v2
+        with:
+          key: hzd-check-layer
+      - name: No Mojang files in the tree
+        run: python3 tools/check_public_tree.py
+      - name: Formatting
+        run: cargo fmt -p hzd-survival --check
+      - name: Lints (deny warnings)
+        run: cargo clippy -p hzd-survival --all-targets -- -D warnings
+      - name: Tests
+        run: cargo test -p hzd-survival --all-targets
+
+  engine:
+    name: Engine builds with the HZD hooks
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+        with:
+          persist-credentials: false
+      - name: Rust toolchain
+        run: rustup show
+      - name: Linux audio and controller headers
+        run: sudo apt-get update && sudo apt-get install -y libasound2-dev libudev-dev
+      - uses: Swatinem/rust-cache@f13886b937689c021905a6b90929199931d60db1 # v2
+        with:
+          key: hzd-check-engine
+      - name: The game compiles with the hooks in place
+        run: cargo check -p horizon-client
