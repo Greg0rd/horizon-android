@@ -12,6 +12,7 @@ Start here:
   and the alternatives; the upstream commit the fork froze at.
 - [`hzd/docs/BASELINE.md`](hzd/docs/BASELINE.md) — the phone's measured baseline.
 - [`hzd/docs/CONSOLE.md`](hzd/docs/CONSOLE.md) — `/hzd` commands and the console on a phone.
+- [`hzd/docs/CI.md`](hzd/docs/CI.md) — the two workflows, what each proves, and what neither does.
 - [`hzd/docs/HZD_DIVERGED.md`](hzd/docs/HZD_DIVERGED.md) — every file outside `hzd/` that
   HZD edits, and why.
 - [`hzd/docs/testcards/`](hzd/docs/testcards/) — what to try on the phone for each module.

@@ -30,10 +30,15 @@ the phone). Status labels: **VERIFIED** (seen running, CI green or the owner's p
       existing worlds get it; the game's pack list enables it unless the owner turned it off.
 - [x] Version banner in the log, `HZD <version>` in F3, an empty counters hook for later modules.
 - [x] App label is `HZD` (same package id, so updates install in place).
-- [ ] CI green on the `hzd/f00` branch and the APK workflow green after the merge into `android`.
+- [x] Fast check green on `hzd/f00` (run `41854339195`); `android` fast-forwarded to the
+      module (run `41855903124` for the docs-only follow-up).
+- [ ] APK workflow green: it is red on `android` @ `6eca278` as well, at
+      "Prepare private engine inputs from official downloads" (Mojang downloads, before any
+      Rust compiles). Pre-existing; the owner re-runs it, or the runner's network is fixed.
 - [ ] Console on the phone with the soft keyboard (code path read, phone check pending).
 - [ ] Baseline numbers from the phone (`BASELINE.md`).
 
-Not done in this environment: the repository here arrived without `.git` and without
-network access to GitHub from the workspace, so the branch, the push and the CI runs are the
-owner's first step (`hzd/docs/reports/F00.md`, "How to land this").
+The working copy this session started from had no `.git`; the repository metadata was
+restored from `origin/android` (the tree matched `6eca278` exactly) and the module was
+committed, pushed and merged like any other branch (`hzd/docs/reports/F00.md`, "How to land
+this"). What cannot be done from here is anything that needs the phone or a working APK.
