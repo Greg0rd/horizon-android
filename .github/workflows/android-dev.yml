@@ -107,12 +107,32 @@ jobs:
       - name: Build optimized public dev APK
         env:
           ABI: ${{ matrix.abi }}
+        # HZD: keep the build's output, so a red APK run can be read without a token
+        # (the step log itself needs an authenticated API call to download).
         run: |
+          set -o pipefail
           python3 tools/android_build.py --abi "$ABI" --public --profile release \
             --sdk "$ANDROID_HOME" --java-home "$JAVA_HOME_17_X64" --gradle "$(command -v gradle)" \
             --ndk-version 28.2.13676358 --build-tools-version 35.0.0 \
             --dev-build "${GITHUB_RUN_NUMBER}.${GITHUB_SHA:0:12}" \
-            --dev-version-code "$((1000 + GITHUB_RUN_NUMBER))"
+            --dev-version-code "$((1000 + GITHUB_RUN_NUMBER))" 2>&1 | tee build.log
+      - name: Keep the build log when the build fails
+        if: failure()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: build-log-${{ github.run_number }}-${{ matrix.abi }}
+          path: build.log
+          if-no-files-found: ignore
+          retention-days: 14
+      - name: Show the build log's tail in the run summary
+        if: failure()
+        run: |
+          {
+            echo '### Build log (last 200 lines)'
+            echo '```'
+            tail -n 200 build.log 2>/dev/null || echo 'no build.log was written'
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
       - name: Collect only audited APK and public metadata
         env:
           ABI: ${{ matrix.abi }}

@@ -16,6 +16,7 @@ bottom.
 | `crates/horizon-client/src/game/debug_keys.rs` (`debug_system_lines`, `debug_performance_lines` area) | F3 `system` group shows the HZD version and `hzd_survival::perf::lines()` | F00 |
 | `packaging/android/AndroidManifest.xml` | `android:label="HZD"` (package id unchanged) | F00 |
 | `tools/android_prepare.py` (`download_game`) | when Mojang has republished the 26.3 version JSON, fetch the pinned one from its content address instead of refusing to prepare (see below) | F00 |
+| `.github/workflows/android-dev.yml` | the APK build's output goes through `tee build.log`; on failure the log tail lands in the run summary and the file is uploaded as an artifact | F00 |
 | `AGENTS.md` | one line pointing at `HZD.md` | F00 |
 | `.github/workflows/hzd-check.yml` | new workflow (not an edit of an existing one) | F00 |
 
