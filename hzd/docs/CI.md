@@ -4,7 +4,7 @@ Two workflows build this fork. Nothing else does: the owner's PC is not a build 
 
 | Workflow | When | What it proves | Time |
 |---|---|---|---|
-| `.github/workflows/hzd-check.yml` | push to `hzd/**`, PRs touching `hzd/`, `crates/hzd-*`, `Cargo.*`, `rust-toolchain.toml` | HZD's crate formats, lints (`-D warnings`) and passes its tests; the tree holds no Mojang files; `horizon-client` still compiles with the `// HZD:` hooks in place | minutes |
+| `.github/workflows/hzd-check.yml` | push to `hzd/**`, PRs touching `hzd/`, `crates/hzd-*`, `Cargo.*`, `rust-toolchain.toml` | HZD's crate formats, lints (`-D warnings`) and passes its tests; the tree holds no Mojang files; `horizon-client` **and** `horizon-android` still compile with the `// HZD:` hooks in place | minutes |
 | `.github/workflows/android-dev.yml` | push to `android` touching code, packaging or tools | the arm64 dev APK builds, is signed and passes the release audit; the artifact is what the owner installs | up to ~2.5 h |
 
 A module is done when both are green (the fast check on its branch, the APK after the merge into
@@ -12,8 +12,10 @@ A module is done when both are green (the fast check on its branch, the APK afte
 
 ## What the fast check does not prove
 
-- **It does not build the APK.** Android-only code (`crates/horizon-android`, the packaging, the
-  NDK target) is compiled only by `android-dev.yml`, and only after a merge into `android`.
+- **It does not build the APK, and not for the NDK target.** `cargo check -p horizon-android`
+  covers the Android crate's own modules on the host, which is what catches a hook that only
+  fails there (it did, once: E0433 on `hzd_survival`). The `aarch64-linux-android` compile, the
+  NDK toolchain and Gradle are exercised only by `android-dev.yml`, after a merge into `android`.
 - **It does not run the game.** There is no headless game in CI: no world is opened, no block is
   broken, no datapack is loaded. Anything that only shows at runtime (a world getting the pack,
   the console on touch, an F3 line) is the owner's test card, labelled IMPLEMENTED BUT NOT

@@ -65,3 +65,8 @@ jobs:
           key: hzd-check-engine
       - name: The game compiles with the hooks in place
         run: cargo check -p horizon-client
+      # HZD: `horizon-android` compiles its own copy of horizon-client's modules
+      # (`android_main.rs` includes `game.rs` and `game/`), so a hook that resolves in the game
+      # crate can still fail in the Android one. That happened once; this check costs minutes.
+      - name: The Android crate compiles the same modules
+        run: cargo check -p horizon-android

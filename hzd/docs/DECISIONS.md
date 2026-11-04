@@ -72,3 +72,17 @@ Newest last. Each entry: date, decision, reason, alternatives, and what it costs
   performance rule (a module may not cost more than ~10 % without a reason) needs a place to
   report our own counters, and this is it.
 - **Undo:** remove the two hooks.
+
+## 2026-11-04 — the trunk's APK workflow is repaired inside F00
+
+- **Decision:** F00 fixes what kept the APK red, even though it is tooling rather than HZD
+  gameplay: `tools/android_prepare.py` falls back to the pinned 26.3 version JSON, the
+  workflow installs a JDK 17 for Gradle, `crates/horizon-android` depends on `hzd-survival`,
+  and the APK build keeps its log (`build.log` -> run summary + artifact).
+- **Reason:** the module's definition of done needs a green APK build, and without one the
+  owner cannot run any test card. Each cause was read from the job log first (they were three
+  different failures in a row), and the last green build predates all of them.
+- **Alternative:** report the red trunk and stop, rejected: it would have left F00 unverified
+  for an unrelated reason.
+- **Undo:** revert those five edits; nothing in them changes gameplay, and each is listed in
+  `HZD_DIVERGED.md`.
